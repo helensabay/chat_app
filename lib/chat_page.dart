@@ -18,77 +18,96 @@ class ChatPage extends StatelessWidget {
               icon: Icon(Icons.logout))
         ],
       ),
-      body: ListView(
+      body: Column(
         children: [
-          Container(
-            padding: EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+          Expanded(
+            child: ListView(
               children: [
-                Text(
-                  'Hi, this is your message!',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    padding: EdgeInsets.all(24),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Hi, this is your message!',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        Image.network(
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZbj_0LixQNkAikI1iUK2a8sYVeiVbg5uj0w&s',
+                          height: 200,
+                        )
+                      ],
+                    ),
+                    margin: EdgeInsets.all(50),
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12),
+                            bottomLeft: Radius.circular(12))),
+                  ),
                 ),
-                Image.network(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRckL6ah3SCkL9b-rR8TBiChatiyVzsWRVmXA&s',
-                    height: 200),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    padding: EdgeInsets.all(24),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Hi, this is your message!',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        Image.network(
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZbj_0LixQNkAikI1iUK2a8sYVeiVbg5uj0w&s',
+                          height: 200,
+                        )
+                      ],
+                    ),
+                    margin: EdgeInsets.all(50),
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12),
+                            bottomLeft: Radius.circular(12))),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    padding: EdgeInsets.all(24),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Hi, this is your message!',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        Image.network(
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZbj_0LixQNkAikI1iUK2a8sYVeiVbg5uj0w&s',
+                          height: 200,
+                        )
+                      ],
+                    ),
+                    margin: EdgeInsets.all(50),
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12),
+                            bottomLeft: Radius.circular(12))),
+                  ),
+                ),
               ],
             ),
-            margin: EdgeInsets.all(50),
-            decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
-                    bottomLeft: Radius.circular(12))),
-          ),
-          Container(
-            padding: EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Hi, this is your message!',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
-                Image.network(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRckL6ah3SCkL9b-rR8TBiChatiyVzsWRVmXA&s',
-                    height: 200),
-              ],
-            ),
-            margin: EdgeInsets.all(50),
-            decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
-                    bottomLeft: Radius.circular(12))),
-          ),
-          Container(
-            padding: EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Hi, this is your message!',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
-                Image.network(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRckL6ah3SCkL9b-rR8TBiChatiyVzsWRVmXA&s',
-                    height: 200),
-              ],
-            ),
-            margin: EdgeInsets.all(50),
-            decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
-                    bottomLeft: Radius.circular(12))),
           ),
           Container(
             height: 100,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
                   onPressed: () {},
@@ -109,7 +128,7 @@ class ChatPage extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-          )
+          ),
         ],
       ),
     );
