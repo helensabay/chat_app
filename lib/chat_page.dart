@@ -1,3 +1,5 @@
+import 'package:chat_app/chat_bubble.dart';
+import 'package:chat_app/chat_input.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatelessWidget {
@@ -21,114 +23,16 @@ class ChatPage extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: ListView(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    padding: EdgeInsets.all(24),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Hi, this is your message!',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                        ),
-                        Image.network(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZbj_0LixQNkAikI1iUK2a8sYVeiVbg5uj0w&s',
-                          height: 200,
-                        )
-                      ],
-                    ),
-                    margin: EdgeInsets.all(50),
-                    decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                            bottomLeft: Radius.circular(12))),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    padding: EdgeInsets.all(24),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Hi, this is your message!',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                        ),
-                        Image.network(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZbj_0LixQNkAikI1iUK2a8sYVeiVbg5uj0w&s',
-                          height: 200,
-                        )
-                      ],
-                    ),
-                    margin: EdgeInsets.all(50),
-                    decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                            bottomLeft: Radius.circular(12))),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    padding: EdgeInsets.all(24),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Hi, this is your message!',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                        ),
-                        Image.network(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZbj_0LixQNkAikI1iUK2a8sYVeiVbg5uj0w&s',
-                          height: 200,
-                        )
-                      ],
-                    ),
-                    margin: EdgeInsets.all(50),
-                    decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                            bottomLeft: Radius.circular(12))),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            height: 100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.send,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-            decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-          ),
+              child: ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return ChatBubble(
+                        alignment: index % 2 == 0
+                            ? Alignment.centerLeft
+                            : Alignment.centerRight,
+                        message: "Hello, this is Helen");
+                  })),
+          ChatInput(),
         ],
       ),
     );
