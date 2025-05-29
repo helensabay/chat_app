@@ -13,7 +13,7 @@ class LoginPage extends StatelessWidget {
       print(userNameController.text);
       print(passwordController.text);
 
-      Navigator.pushNamed(context, '/chat',
+      Navigator.pushReplacementNamed(context, '/chat',
           arguments: '${userNameController.text}');
       print('login! successful!');
     } else {
@@ -52,9 +52,7 @@ class LoginPage extends StatelessWidget {
                     color: Colors.blueGrey),
               ),
               Image.network(
-                'https://images.unsplash.com/photo-1605749439419-80c81f67eefc?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zmxvd2VycyUyMGFlc3RoZXRpY3xlbnwwfHwwfHx8MA%3D%3D',
-                height: 200,
-              ),
+                  'https://images.unsplash.com/photo-1605749439419-80c81f67eefc?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zmxvd2VycyUyMGFlc3RoZXRpY3xlbnwwfHwwfHx8MA%3D%3D'),
               Form(
                 key: _formkey,
                 child: Column(
