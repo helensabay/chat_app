@@ -54,8 +54,8 @@ class LoginPage extends StatelessWidget {
                     fontSize: 20,
                     color: Colors.blueGrey),
               ),
-              Image.network(
-                'https://images.unsplash.com/photo-1605749439419-80c81f67eefc?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zmxvd2VycyUyMGFlc3RoZXRpY3xlbnwwfHwwfHx8MA%3D%3D',
+              Image.asset(
+                'assets/illustration.png',
                 height: 200,
               ),
               Form(
@@ -108,7 +108,7 @@ class LoginPage extends StatelessWidget {
                 child: Column(
                   children: [
                     Text('Find us on'),
-                    Text('https://helensabay.com'),
+                    Text('https://google.com'),
                   ],
                 ),
               )
