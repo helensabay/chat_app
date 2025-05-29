@@ -1,10 +1,11 @@
+import 'package:chat_app/models/chat_message_entity.dart';
+import 'package:chat_app/models/image_model.dart';
+import 'package:chat_app/chat_bubble.dart';
+import 'package:chat_app/chat_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
-
-import 'package:chat_app/models/chat_message_entity.dart';
-import 'package:chat_app/chat_bubble.dart';
-import 'package:chat_app/chat_input.dart';
+import 'package:http/http.dart' as http;
 
 class ChatPage extends StatefulWidget {
   ChatPage({Key? key}) : super(key: key);
@@ -15,80 +16,83 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   List<ChatMessageEntity> _messages = [];
-  final ScrollController _scrollController = ScrollController();
 
-  @override
-  void initState() {
-    super.initState();
-    _loadInitialMessages();
-  }
-
-  Future<void> _loadInitialMessages() async {
+  _loadInitialMessages() async {
     final response = await rootBundle.loadString('assets/mock_messages.json');
-    final List<dynamic> decodeList = jsonDecode(response);
 
-    final List<ChatMessageEntity> _chatMessages = decodeList
-        .map((listItem) => ChatMessageEntity.fromJson(listItem))
-        .toList();
+    final List<dynamic> decodeList = jsonDecode(response) as List;
+
+    final List<ChatMessageEntity> _chatMessages = decodeList.map((listItem) {
+      return ChatMessageEntity.fromJson(listItem);
+    }).toList();
+
+    print(_chatMessages.length);
 
     setState(() {
       _messages = _chatMessages;
     });
   }
 
-  void onMessageSent(ChatMessageEntity entity) {
-    setState(() {
-      _messages = [..._messages, entity]; // Create new list to trigger rebuild
-    });
+  onMessageSent(ChatMessageEntity entity) {
+    _messages.add(entity);
+    setState(() {});
+  }
 
-    // Scroll to bottom after new message
-    Future.delayed(Duration(milliseconds: 100), () {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      }
-    });
+  _getNetworkImages() async {
+    var endpointUrl = Uri.parse('https://pixelford.com/api2/images');
+
+    final response = await http.get(endpointUrl);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> decodeList = jsonDecode(response.body) as List;
+
+      final List<PixelfordImage> _imageList = decodeList.map((listItem) {
+        return PixelfordImage.fromJson(listItem);
+      }).toList();
+
+      print(_imageList[0].urlFullSize);
+    }
+  }
+
+  @override
+  void initState() {
+    _loadInitialMessages();
+    _getNetworkImages();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    _getNetworkImages();
     final username = ModalRoute.of(context)!.settings.arguments as String;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Center(child: Text('Hi $username!')),
+        title: Center(
+          child: Text('Hi $username!'),
+        ),
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, '/');
-              print('Logout pressed!');
-            },
-            icon: Icon(Icons.logout),
-          ),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/');
+                print('Icon pressed!');
+              },
+              icon: Icon(Icons.logout))
         ],
       ),
       body: Column(
         children: [
           Expanded(
             child: ListView.builder(
-              controller: _scrollController,
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                final message = _messages[index];
-                final isMyMessage = message.author.userName == 'poojab26';
-                return ChatBubble(
-                  alignment: isMyMessage
-                      ? Alignment.centerRight
-                      : Alignment.centerLeft,
-                  entity: message,
-                );
-              },
-            ),
+                itemCount: _messages.length,
+                itemBuilder: (context, index) {
+                  return ChatBubble(
+                      alignment: _messages[index].author.userName == 'poojab26'
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      entity: _messages[index]);
+                }),
           ),
           ChatInput(
             onSubmit: onMessageSent,
