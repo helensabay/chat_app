@@ -11,7 +11,7 @@ class ChatApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Chat App!!!",
+      title: "Flutter Chat App!!!",
       // theme: ThemeData(primarySwatch: Colors.yellow),
       // home: CounterStateful(buttonColor:Colors.blue),
       theme: ThemeData(
