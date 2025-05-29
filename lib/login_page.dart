@@ -1,3 +1,6 @@
+// import 'dart:js';
+
+import 'package:chat_app/chat_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -5,10 +8,13 @@ class LoginPage extends StatelessWidget {
 
   final _formkey = GlobalKey<FormState>();
 
-  void loginUser() {
+  void loginUser(context) {
     if (_formkey.currentState != null && _formkey.currentState!.validate()) {
       print(userNameController.text);
       print(passwordController.text);
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => ChatPage()));
       print('login! successful!');
     } else {
       print('not successful');
@@ -46,7 +52,7 @@ class LoginPage extends StatelessWidget {
                     color: Colors.blueGrey),
               ),
               Image.network(
-                'https://images.unsplash.com/photo-1605749439419-80c81f67eefc?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zmxvd2VycyUyMGFlc3RoZXRpY3xlbnwwfHwwfHx8MA%3D%3D',
+                'https://3009709.youcanlearnit.net/Alien_LIL_131338.png',
                 height: 200,
               ),
               Form(
@@ -85,7 +91,9 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               ElevatedButton(
-                onPressed: loginUser,
+                onPressed: () {
+                  loginUser(context);
+                },
                 child: Text('Login',
                     style:
                         TextStyle(fontSize: 24, fontWeight: FontWeight.w300)),
@@ -104,7 +112,7 @@ class LoginPage extends StatelessWidget {
                 child: Column(
                   children: [
                     Text('Find us on'),
-                    Text('https://helensabay.com'),
+                    Text('https://google.com'),
                   ],
                 ),
               )
