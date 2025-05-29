@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CounterStateful extends StatefulWidget {
-  Color buttonColor;
-
+  final Color buttonColor;
   CounterStateful({Key? key, required this.buttonColor}) : super(key: key);
 
   @override
@@ -36,22 +35,21 @@ class _CounterStatefulState extends State<CounterStateful> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Counter!!!'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: widget.buttonColor,
-        child: Icon(Icons.message),
-        onPressed: () {
-          increment();
-        },
-      ),
-      body: Center(
-        child: Text(
-          '$counter',
-          style: TextStyle(fontSize: 30),
+        appBar: AppBar(
+          title: Text('Counter'),
         ),
-      ),
-    );
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: widget.buttonColor,
+          child: Icon(Icons.add),
+          onPressed: () {
+            increment();
+          },
+        ),
+        body: Center(
+          child: Text(
+            '$counter',
+            style: TextStyle(fontSize: 30),
+          ),
+        ));
   }
 }
