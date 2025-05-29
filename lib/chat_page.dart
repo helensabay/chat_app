@@ -2,30 +2,41 @@ import 'package:chat_app/models/chat_message_entity.dart';
 import 'package:chat_app/chat_bubble.dart';
 import 'package:chat_app/chat_input.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'dart:convert';
 
-class ChatPage extends StatelessWidget {
+class ChatPage extends StatefulWidget {
   ChatPage({Key? key}) : super(key: key);
 
-  List<ChatMessageEntity> _messages = [
-    ChatMessageEntity(
-        author: Author(userName: 'pooja'),
-        createdAt: 2131231242,
-        id: '1',
-        text: 'First text'),
-    ChatMessageEntity(
-        author: Author(userName: 'pooja'),
-        createdAt: 2131231442,
-        id: '1',
-        text: 'Second text',
-        imageUrl:
-            'https://images.unsplash.com/photo-1605749439419-80c81f67eefc?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zmxvd2VycyUyMGFlc3RoZXRpY3xlbnwwfHwwfHx8MA%3D%3D'),
-    ChatMessageEntity(
-      author: Author(userName: 'jane'),
-      createdAt: 2131234242,
-      id: '1',
-      text: 'Third text',
-    )
-  ];
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  List<ChatMessageEntity> _messages = [];
+
+  _loadInitialMessages() async {
+    final response = await rootBundle.loadString('assets/mock_messages.json');
+
+    final List<dynamic> decodeList = jsonDecode(response) as List;
+
+    final List<ChatMessageEntity> _chatMessages = decodeList.map((listItem) {
+      return ChatMessageEntity.fromJson(listItem);
+    }).toList();
+
+    print(_chatMessages.length);
+
+    setState(() {
+      _messages = _chatMessages;
+    });
+  }
+
+  @override
+  void initState() {
+    _loadInitialMessages();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +64,7 @@ class ChatPage extends StatelessWidget {
                 itemCount: _messages.length,
                 itemBuilder: (context, index) {
                   return ChatBubble(
-                      alignment: _messages[index].author.userName == 'pooja'
+                      alignment: _messages[index].author.userName == 'poojab26'
                           ? Alignment.centerRight
                           : Alignment.centerLeft,
                       entity: _messages[index]);
