@@ -44,11 +44,25 @@ class LoginPage extends StatelessWidget {
                     'Click me!',
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w300),
                   )),
-              TextButton(
-                  onPressed: () {
-                    print('Pressed on the URL!');
-                  },
-                  child: Text('https://helensabay.com'))
+              InkWell(
+                splashColor: Colors.red,
+                onDoubleTap: () {
+                  print('double tapped!');
+                },
+                onLongPress: () {
+                  print('onLongpress!');
+                },
+                onTap: () {
+                  //TODO: Navigate to browser
+                  print('Link clicked!');
+                },
+                child: Column(
+                  children: [
+                    Text('Find us on'),
+                    Text('https://helensabay.com'),
+                  ],
+                ),
+              )
             ],
           ),
         ),
