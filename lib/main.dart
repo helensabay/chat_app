@@ -1,33 +1,33 @@
-import 'package:chat_app/chat_page.dart';
-import 'package:chat_app/counter_stateful_demo.dart';
-import 'package:chat_app/login_page.dart';
-import 'package:chat_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'services/auth_service.dart'; // adjust if path is different
+import 'login_page.dart'; // your custom login screen
+import 'chat_page.dart'; // your main chat screen
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await AuthService.init();
-  runApp(ChangeNotifierProvider(
-    create: (BuildContext context) => AuthService(),
-    child: ChatApp(),
-  ));
+  await AuthService.init(); // Must be called before runApp
+
+  runApp(MyApp());
 }
 
-class ChatApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Flutter Chat App!!!",
-      // theme: ThemeData(primarySwatch: Colors.yellow),
-      // home: CounterStateful(buttonColor:Colors.blue),
-      theme: ThemeData(
-          canvasColor: Colors.transparent,
-          primarySwatch: Colors.deepPurple,
-          appBarTheme: AppBarTheme(
-              backgroundColor: Colors.blue, foregroundColor: Colors.black)),
-      home: LoginPage(),
-      routes: {'/chat': (context) => ChatPage()},
+      title: 'Chat App',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: FutureBuilder<bool>(
+        future: AuthService().isLoggedIn(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasData && snapshot.data!) {
+            return ChatPage(); // already logged in
+          } else {
+            return LoginPage(); // needs to login
+          }
+        },
+      ),
     );
   }
 }

@@ -20,22 +20,21 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   List<ChatMessageEntity> _messages = [];
 
+  // Load mock messages
   _loadInitialMessages() async {
     final response = await rootBundle.loadString('assets/mock_messages.json');
-
     final List<dynamic> decodeList = jsonDecode(response) as List;
 
     final List<ChatMessageEntity> _chatMessages = decodeList.map((listItem) {
       return ChatMessageEntity.fromJson(listItem);
     }).toList();
 
-    print(_chatMessages.length);
-
     setState(() {
       _messages = _chatMessages;
     });
   }
 
+  // Add new message
   onMessageSent(ChatMessageEntity entity) {
     _messages.add(entity);
     setState(() {});
@@ -43,51 +42,61 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   void initState() {
-    _loadInitialMessages();
-
     super.initState();
+    _loadInitialMessages();
   }
 
   @override
   Widget build(BuildContext context) {
-    final username = context.watch<AuthService>().getUserName();
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Center(
-          child: Text('Hi $username!'),
+          child: FutureBuilder<String?>(
+            future: context.read<AuthService>().getUserName(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text("Hi...");
+              } else if (snapshot.hasData && snapshot.data != null) {
+                return Text("Hi ${snapshot.data}!");
+              } else {
+                return Text("Hi there!");
+              }
+            },
+          ),
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                context.read<AuthService>().updateUserName("New Name!");
-              },
-              icon: Icon(Icons.logout)),
-          IconButton(
-              onPressed: () {
-                context.read<AuthService>().logoutUser();
-                Navigator.pushReplacementNamed(context, '/');
-                print('Icon pressed!');
-              },
-              icon: Icon(Icons.logout))
+            onPressed: () {
+              context.read<AuthService>().logoutUser();
+              Navigator.pushReplacementNamed(context, '/');
+            },
+            icon: Icon(Icons.logout),
+          )
         ],
       ),
       body: Column(
         children: [
           Expanded(
             child: ListView.builder(
-                itemCount: _messages.length,
-                itemBuilder: (context, index) {
-                  return ChatBubble(
-                      alignment: _messages[index].author.userName ==
-                              context.read<AuthService>().getUserName()
-                          ? Alignment.centerRight
-                          : Alignment.centerLeft,
-                      entity: _messages[index]);
-                }),
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                return FutureBuilder<String?>(
+                  future: context.read<AuthService>().getUserName(),
+                  builder: (context, snapshot) {
+                    final isMe = _messages[index].author.userName ==
+                        (snapshot.data ?? "");
+                    return ChatBubble(
+                      alignment:
+                          isMe ? Alignment.centerRight : Alignment.centerLeft,
+                      entity: _messages[index],
+                    );
+                  },
+                );
+              },
+            ),
           ),
           ChatInput(
             onSubmit: onMessageSent,
